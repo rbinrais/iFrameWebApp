@@ -1,0 +1,68 @@
+﻿@{
+    ViewData["Title"] = "Login";
+}
+<h1>@ViewData["Title"]</h1>
+
+<script>
+
+    console.log("process request2");
+                var logOutUrl =  "https://{tenant}.b2clogin.com/{tenant}.onmicrosoft.com/{policy}/oauth2/v2.0/logout?post_logout_redirect_uri={url}";
+                logOutUrl =  "https://mypicturetrip.b2clogin.com/members.mypicturetrip.com/B2C_1A_iframe_signup_signin/oauth2/v2.0/logout?post_logout_redirect_uri=https%3A%2F%2Flocalhost%3A5001";
+
+                var token = window.sessionStorage.getItem('idTokenRaw');   
+                if (token)
+                    {
+                        console.log("inside logout2: " + logOutUrl)
+                        window.sessionStorage.removeItem('idTokenRaw');
+                        window.sessionStorage.removeItem('idTokenJSON');
+                        document.getElementById("login1").text = "Login";
+                        window.location.href = logOutUrl;
+                        
+                    }
+    
+    console.log("reffer: "+document.referrer);
+    setInterval(function(){
+         console.log("timer check...");
+        var token = window.sessionStorage.getItem('idTokenRaw');   
+        if (token) {
+            console.log(token)
+            console.log("taking back homepage...");
+            window.location.href = "/";
+        }
+
+    }, 1000);
+ 
+</script>
+<div onclick="javascript:window.location.replace('/');">
+    <!-- javascript:document.getElementById('iframeDiv').style.display='none'; -->
+    close (x)
+</div>
+<div id="iframeDiv">
+    <iframe src="https://mypicturetrip.b2clogin.com/members.mypicturetrip.com/oauth2/v2.0/authorize?p=B2C_1A_iframe_signup_signin&client_id=a2b404a8-4326-4c12-8e30-93c291c3aafa&nonce=defaultNonce&redirect_uri=https%3A%2F%2Flocalhost%3A5001%2Fhome%2Ftoken&scope=openid&response_type=id_token&prompt=login" 
+     name="win" id="winFrame" frameborder="1" width="400px" height="600px" >
+    <script type="text/javascript">
+        console.log('inside iframe div');
+         
+        /*
+        // Create IE + others compatible event handler
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+        // Listen to message from child window
+        eventer(messageEvent,function(e) {
+        console.log('parent received message!:  ',e.data);
+        },false);
+        /*alert(iframe.contentWindow == frames[0]); // true
+        alert(iframe.contentWindow == frames.win); // true
+        window.addEventListener("message", function(event) {    
+
+        alert( "received: " + event.data );
+
+        // can message back using event.source.postMessage(...)
+        });*/
+
+    </script>
+    </iframe>
+</div>
+ 
