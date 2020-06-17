@@ -35,11 +35,18 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+        <div id="json" style="display:none;"> 
+            <h5>ID Token JWT (JSON):</h5>
+            <pre id="idJsonView"></pre>
+            <br/>
+            <h5>ID Token JWT (RAW):</h5>
+            <pre id="idRawView"></pre>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - iframes - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+          
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -53,6 +60,9 @@
             if (jsonObj){
                     document.getElementById("login1").text = "Logout";
                     document.getElementById("welcomeMsg").innerHTML = "Welcome: "+ jsonObj.name;
+                    document.getElementById("idJsonView").innerHTML = JSON.stringify(jsonObj,undefined,2);
+                    document.getElementById("idRawView").innerHTML = window.sessionStorage.getItem("idTokenRaw"); 
+                    document.getElementById("json").style.display = "block";
                     //console.log("in")
                     //Display claims in json <pre-tag> and raw token.
             }
