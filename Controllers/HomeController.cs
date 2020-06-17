@@ -25,6 +25,10 @@ namespace iframes.Controllers
             return View();
         }
 
+        public IActionResult Config()
+        {
+            return View();
+        }
         public IActionResult Token()
         {
             return View();

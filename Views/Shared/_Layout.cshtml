@@ -25,6 +25,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Login" id="login1" >Login</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Config" id="login1" >Config</a>
+                        </li>
                          
                     </ul>
                 </div>
@@ -35,13 +38,6 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
-        <div id="json" style="display:none;"> 
-            <h5>ID Token JWT (JSON):</h5>
-            <pre id="idJsonView"></pre>
-            <br/>
-            <h5>ID Token JWT (RAW):</h5>
-            <pre id="idRawView"></pre>
-        </div>
     </div>
 
     <footer class="border-top footer text-muted">
@@ -54,38 +50,12 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     
     @RenderSection("Scripts", required: false)
-   <script > 
-            var jsonObj = JSON.parse(window.sessionStorage.getItem("idTokenJSON"))
-            console.log(jsonObj)
-            if (jsonObj){
-                    document.getElementById("login1").text = "Logout";
-                    document.getElementById("welcomeMsg").innerHTML = "Welcome: "+ jsonObj.name;
-                    document.getElementById("idJsonView").innerHTML = JSON.stringify(jsonObj,undefined,2);
-                    document.getElementById("idRawView").innerHTML = window.sessionStorage.getItem("idTokenRaw"); 
-                    document.getElementById("json").style.display = "block";
-                    //console.log("in")
-                    //Display claims in json <pre-tag> and raw token.
+    <script>
+         var token = window.sessionStorage.getItem('idTokenRaw');   
+         if (token)
+            {
+                document.getElementById("login1").text = "Logout";
             }
-
-
-            
-           function processRequest()
-           {
-                console.log("process request");
-                var logOutUrl =  "https://{tenant}.b2clogin.com/{tenant}.onmicrosoft.com/{policy}/oauth2/v2.0/logout?post_logout_redirect_uri={url}";
-                logOutUrl =  "https://mypicturetrip.b2clogin.com/members.mypicturetrip.com/B2C_1A_iframe_signup_signin/oauth2/v2.0/logout?post_logout_redirect_uri=https%3A%2F%2Flocalhost%3A5001";
-
-                var token = window.sessionStorage.getItem('idTokenRaw');   
-                if (token)
-                    {
-                        console.log("inside logout: " + logOutUrl)
-                        window.sessionStorage.removeItem('idTokenRaw');
-                        window.sessionStorage.removeItem('idTokenJSON');
-                        document.getElementById("login1").text = "Login";
-                        document.location.href = logOutUrl;
-                        
-                    }
-           }
     </script>
 </body>
 </html>

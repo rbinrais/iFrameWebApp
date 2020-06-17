@@ -2,8 +2,36 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center" >
+<div class="text-center"  >
     <h1 class="display-4" id="welcomeMsg">Welcome </h1>
 </div>
-
-
+<div class="container">
+    <div id="json" style="display:none;"> 
+            <h5>ID Token JWT (JSON):</h5>
+            <pre id="idJsonView"></pre>
+            <br/>
+            <h5>ID Token JWT (RAW):</h5>
+            <pre id="idRawView"></pre>
+        </div>
+</div>
+ <script>    
+        var jsonObj = JSON.parse(window.sessionStorage.getItem("idTokenJSON"))
+        console.log(jsonObj)
+        if (jsonObj){
+                document.getElementById("login1").text = "Logout";
+                SetValue("welcomeMsg","Welcome: "+ jsonObj.name);
+                SetValue("idJsonView",JSON.stringify(jsonObj,undefined,2));
+                SetValue("idRawView",window.sessionStorage.getItem("idTokenRaw"));
+                document.getElementById("json").style.display = "block";
+            
+        }
+        
+        function SetValue(id,value)
+        { 
+            var element = document.getElementById(id);
+            if (element)
+            {
+               element.innerHTML = value;
+            }
+        }
+</script>

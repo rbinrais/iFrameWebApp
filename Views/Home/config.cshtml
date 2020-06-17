@@ -1,0 +1,64 @@
+﻿@{
+    ViewData["Title"] = "Token";
+}
+<body>
+
+    
+
+    <script type="text/javascript">
+       
+        function save() {
+            var url = 'https://'+document.getElementById("domain").value + '/'+
+                                document.getElementById("tenantId").value+ '/'+
+                                "oauth2/v2.0/authorize?" +
+                                "p="+ document.getElementById("policy").value + '&'+
+                                "client_id="+ document.getElementById("clientId").value + '&'+
+                                "nonce=defaultNonce"+ '&'+
+                                "redirect_uri="+ document.getElementById("redirectUrl").value + "&" +
+                                "scope=openid&response_type=id_token&prompt=login";
+
+            console.log("Saving url: " +url);
+            window.sessionStorage.setItem("b2cUrl",url); 
+            window.sessionStorage.setItem("domain",document.getElementById("domain").value); 
+            window.sessionStorage.setItem("tenantId",document.getElementById("tenantId").value);
+            window.sessionStorage.setItem("policy",document.getElementById("policy").value);
+            window.sessionStorage.setItem("clientId",document.getElementById("clientId").value);
+            window.sessionStorage.setItem("redirectUrl",document.getElementById("redirectUrl").value);
+             
+            document.getElementById("b2cUrl").href= url; 
+            //display url as a link so user can easily test it.   
+        }; 
+        // https://mypicturetrip.b2clogin.com/members.mypicturetrip.com/oauth2/v2.0/authorize?p=B2C_1A_iframe_signup_signin&client_id=a2b404a8-4326-4c12-8e30-93c291c3aafa&nonce=defaultNonce&redirect_uri
+        //=https%3A%2F%2Flocalhost%3A5001%2Fhome%2Ftoken&scope=openid&response_type=id_token&prompt=login
+    </script>
+</body>
+<div class="text-center">
+    <h5>Azure B2C Configuration</h5>
+    <input type="text" id="domain" value="{tenant}.b2clogin.com"/>
+    <input type="text" id="tenantId" value="{tenant}.onmicrosoft.com"/>
+    <input type="text" id="policy" value="{policy}"/>
+    <input type="text" id="clientId" value="{clientId}"/>
+    <input type="text" id="redirectUrl" value="{redirect_uri}" />
+    
+    <input type="button" id="btnSaveConfig" value="Save" onclick="save()"/>
+    <br/>
+    <a id="b2cUrl" href="#" target="_blank" >B2C Policy</a>
+</div>
+
+<script type="text/javascript">
+         
+        initializeInput("domain");
+        initializeInput("tenantId");
+        initializeInput("policy");
+        initializeInput("clientId");
+        initializeInput("redirectUrl");
+        document.getElementById("b2cUrl").href = window.sessionStorage.getItem("b2cUrl");
+        
+        function initializeInput(id){
+            var result =  window.sessionStorage.getItem(id) 
+            if(result){
+                document.getElementById(id).value = result;
+            }
+             
+        }
+    </script>
